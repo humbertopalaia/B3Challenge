@@ -1,29 +1,29 @@
 ﻿using AutoMapper;
 using Castle.Core.Internal;
-using B3ChallengeBusiness.Interfaces;
-using B3ChallengeDomain;
-using B3ChallengeRepository;
+using B3Challenge.Business.Interfaces;
+using B3Challenge.Repository;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Security.Principal;
+using B3Challenge.Repository.Task;
 
-namespace B3ChallengeBusiness
+namespace B3Challenge.Business
 {
     public class TaskBusiness : ITaskBusiness
     {
 
-        private readonly IGenericRepository<B3ChallengeDomain.Task> _repository;
+        private readonly TaskRepository _repository;
 
         public TaskBusiness()
         {
 
         }
-        public TaskBusiness(IGenericRepository<B3ChallengeDomain.Task> repository)
+        public TaskBusiness(TaskRepository repository)
         {
             _repository = repository;
         }
 
-        private List<string> ValidateInsertUpdate(B3ChallengeDomain.Task entity)
+        private List<string> ValidateInsertUpdate(Domain.Entities.Task entity)
         {
             var errors = new List<string>();
 
@@ -44,12 +44,12 @@ namespace B3ChallengeBusiness
 
 
 
-        public B3ChallengeDomain.Task GetById(int id)
+        public Domain.Entities.Task GetById(int id)
         {
             return _repository.GetById(id);
         }
 
-        public OperationResult Insert(B3ChallengeDomain.Task entity, bool autoSave = true)
+        public OperationResult Insert(Domain.Entities.Task entity, bool autoSave = true)
         {
             var result = new OperationResult();
 
@@ -68,7 +68,7 @@ namespace B3ChallengeBusiness
             return result;
         }
 
-        public OperationResult Update(B3ChallengeDomain.Task entity, bool autoSave = true)
+        public OperationResult Update(Domain.Entities.Task entity, bool autoSave = true)
         {
             var result = new OperationResult();
 
@@ -98,7 +98,7 @@ namespace B3ChallengeBusiness
             return new OperationResult { Success = true };
         }
 
-        public List<B3ChallengeDomain.Task> GetAll()
+        public List<Domain.Entities.Task> GetAll()
         {
 
             var all = _repository.GetAll()

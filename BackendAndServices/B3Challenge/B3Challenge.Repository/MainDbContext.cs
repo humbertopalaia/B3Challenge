@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Proxies;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,25 +9,22 @@ using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace B3ChallengeRepository
+namespace B3Challenge.Repository
 {
     public partial class MainDbContext : DbContext
     {
         private readonly string _connectionString;
 
-        public MainDbContext(string connectionString)
-        {
-            _connectionString = connectionString;
-        }
 
-        public MainDbContext(DbContextOptions<MainDbContext> options)
+        public MainDbContext(DbContextOptions<MainDbContext> options, IConfiguration configuration)
             : base(options)
         {
+            _connectionString = configuration.GetConnectionString("Default");
             this.ChangeTracker.LazyLoadingEnabled= false;
         }
 
-        public DbSet<B3ChallengeDomain.Task> Task { get; set; }
-        public DbSet<B3ChallengeDomain.TaskStatus> TaskStatus { get; set; }
+        public DbSet<Domain.Entities.Task> Task { get; set; }
+        public DbSet<Domain.Entities.TaskStatus> TaskStatus { get; set; }
        
 
 

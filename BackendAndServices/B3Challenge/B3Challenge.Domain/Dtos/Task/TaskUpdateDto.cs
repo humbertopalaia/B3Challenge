@@ -1,21 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace B3ChallengeDomain
+namespace B3Challenge.Domain.Dtos.Task
 {
-    public class Task
+    public class TaskUpdateDto
     {
-        [Key]
         public int Id { get; set; }
         public string Description { get; set; }
         public DateTime Date { get; set; }
         public int TaskStatusId { get; set; }
 
-        public TaskStatus TaskStatus { get; set; }
+        public override string ToString()
+        {
+            return JsonSerializer.Serialize(this);
+        }
     }
 }

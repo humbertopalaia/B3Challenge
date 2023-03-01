@@ -6,7 +6,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace B3ChallengeRepository
+namespace B3Challenge.Repository
 {
     public class GenericRepository<T> : IGenericRepository<T> where T : class
     {
@@ -67,7 +67,7 @@ namespace B3ChallengeRepository
 
         public T GetById(object id)
         {
-            return _dbSet.Find(id);
+            return _dbSet.AsNoTracking<T>().FirstOrDefault();
         }
 
         public void Insert(T entity, bool autoSave = true)

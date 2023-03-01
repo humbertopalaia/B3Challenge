@@ -6,12 +6,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace B3ChallengeDomain
+namespace B3Challenge.Domain.Entities
 {
-    public class TaskStatus
+    public class Task
     {
         [Key]
         public int Id { get; set; }
-        public string Name { get; set; }
+        public string Description { get; set; }
+        public DateTime Date { get; set; }
+        public int TaskStatusId { get; set; }
+
+        public TaskStatus TaskStatus { get; set; }
     }
 }
