@@ -47,7 +47,7 @@ namespace B3ChallengeTaskService
                     services.AddHostedService<Worker>();
                     services.AddDbContext<MainDbContext>(options => options.UseSqlServer());
                     services.AddAutoMapper(typeof(Program));
-                    DependencyInjectionConfig.RegisterServices(services, GetConfiguration());
+                    DependencyInjectionConfig.RegisterAll(services, GetConfiguration());
                 });
     }
 

@@ -26,9 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\B3Challenge.Business\B3Challenge.Business.csproj" />
-    <ProjectReference Include="..\B3Challenge.Domain\B3Challenge.Domain.csproj" />
-    <ProjectReference Include="..\B3Challenge.Rabbit\B3Challenge.Rabbit.csproj" />
+    <ProjectReference Include="..\Infra\B3Challenge.Business\B3Challenge.Business.csproj" />
   </ItemGroup>
 
 </Project>

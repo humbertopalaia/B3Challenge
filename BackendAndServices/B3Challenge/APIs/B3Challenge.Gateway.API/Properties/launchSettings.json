@@ -9,7 +9,7 @@
     }
   },
   "profiles": {
-    "B3Challenge.API": {
+    "B3Challenge.Gateway.API": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,

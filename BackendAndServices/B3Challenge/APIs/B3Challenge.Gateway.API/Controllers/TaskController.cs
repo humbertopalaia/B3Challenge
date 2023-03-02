@@ -55,7 +55,7 @@ namespace B3Challenge.API.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError("Erro ao tentar inserir tarefa", ex);
+                _logger.LogError("Erro ao tentar apagar tarefa", ex);
                 return new StatusCodeResult(500);
             }
 
@@ -79,16 +79,11 @@ namespace B3Challenge.API.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError("Erro ao tentar inserir tarefa", ex);
+                _logger.LogError("Erro ao tentar atualizar tarefa", ex);
                 return new StatusCodeResult(500);
             }
 
             return Accepted();
-        }
-        public IActionResult Delete()
-        {
-            return Accepted();
-
         }
     }
 }

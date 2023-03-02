@@ -14,7 +14,7 @@ namespace B3Challenge.Business
 {
     public static class DependencyInjectionConfig
     {
-        public static IServiceCollection RegisterServices(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection RegisterRepositories(this IServiceCollection services)
         {
             #region Repositories
             services.AddScoped<TaskRepository, TaskRepository>();
@@ -25,12 +25,32 @@ namespace B3Challenge.Business
 
             #endregion
 
+        
+
+            return services;
+
+        }
+
+
+        public static IServiceCollection RegisterBusiness(this IServiceCollection services)
+        {
+            #region Business
+            services.AddScoped<ITaskBusiness, TaskBusiness>();
+            #endregion
+
+
+            return services;
+
+        }
+
+        public static IServiceCollection RegisterRabbit(this IServiceCollection services, IConfiguration configuration)
+        {
             #region Others
             services.AddScoped<IRabbitConsumer, RabbitConsumer>(opt => {
-                    var hostName = configuration["Rabbit:Host"];
-                    var userName = configuration["Rabbit:User"];
-                    var password = configuration["Rabbit:Password"];
-                    return new RabbitConsumer(hostName, userName, password);
+                var hostName = configuration["Rabbit:Host"];
+                var userName = configuration["Rabbit:User"];
+                var password = configuration["Rabbit:Password"];
+                return new RabbitConsumer(hostName, userName, password);
             });
 
             services.AddScoped<IRabbitSender, RabbitSender>(opt => {
@@ -40,9 +60,18 @@ namespace B3Challenge.Business
                 return new RabbitSender(hostName, userName, password);
             });
 
-
-
             #endregion
+
+            return services;
+
+        }
+
+
+        public static IServiceCollection RegisterAll(this IServiceCollection services, IConfiguration configuration)
+        {
+            RegisterRepositories(services);
+            RegisterBusiness(services);
+            RegisterRabbit(services, configuration);
 
             return services;
 

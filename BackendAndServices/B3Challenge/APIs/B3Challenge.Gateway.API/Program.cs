@@ -1,6 +1,4 @@
-using B3Challenge.Business;
-
-namespace B3Challenge.API
+namespace B3Challenge.Gateway.API
 {
     public class Program
     {

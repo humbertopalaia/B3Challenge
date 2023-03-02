@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Security.Principal;
 using B3Challenge.Repository.Task;
+using B3Challenge.Domain.Dtos.Task;
 
 namespace B3Challenge.Business
 {
@@ -14,13 +15,26 @@ namespace B3Challenge.Business
 
         private readonly TaskRepository _repository;
 
-        public TaskBusiness()
-        {
 
-        }
         public TaskBusiness(TaskRepository repository)
         {
             _repository = repository;
+        }
+
+        public IList<Domain.Entities.Task> Filter(TaskFilterDto dto)
+        {
+            var query = _repository.GetAll();
+
+            if (dto.Id.HasValue)
+                query = query.Where(x => x.Id == dto.Id).AsQueryable();
+
+            if (!dto.Description.IsNullOrEmpty())
+                query = query.Where(x => x.Description.Contains(dto.Description)).AsQueryable();
+
+            if (dto.TaskStatusId.HasValue)
+                query = query.Where(x => x.TaskStatusId == dto.TaskStatusId).AsQueryable();
+
+            return query.ToList();
         }
 
         private List<string> ValidateInsertUpdate(Domain.Entities.Task entity)
@@ -49,53 +63,22 @@ namespace B3Challenge.Business
             return _repository.GetById(id);
         }
 
-        public OperationResult Insert(Domain.Entities.Task entity, bool autoSave = true)
+        public void Insert(Domain.Entities.Task entity, bool autoSave = true)
         {
-            var result = new OperationResult();
-
-            var validations = ValidateInsertUpdate(entity);
-
-
-            if (validations.Count > 0)
-                result = new OperationResult { Success = false, Errors = validations };
-            else
-            {
-
-                _repository.Insert(entity);
-                result.Success = true;
-            }
-
-            return result;
+            _repository.Insert(entity);
         }
 
-        public OperationResult Update(Domain.Entities.Task entity, bool autoSave = true)
+        public void Update(Domain.Entities.Task entity, bool autoSave = true)
         {
-            var result = new OperationResult();
-
-            var validations = ValidateInsertUpdate(entity);
-
-
-            if (validations.Count > 0)
-                result = new OperationResult { Success = false, Errors = validations };
-            else
-            {
-                _repository.Update(entity);
-                result = new OperationResult { Success = true };
-
-            }
-
-            return result;
-
+            _repository.Update(entity);
         }
 
-        public OperationResult Delete(int id)
+        public void Delete(int id)
         {
             var entity = _repository.Get(x => x.Id == id).FirstOrDefault();
 
             if (entity != null)
                 _repository.Delete(entity.Id);
-
-            return new OperationResult { Success = true };
         }
 
         public List<Domain.Entities.Task> GetAll()
