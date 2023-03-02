@@ -31,7 +31,7 @@ namespace B3Challenge.API.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError("Erro ao tentar inserir tarefa", ex);
+                _logger.LogError(ex, "Erro ao tentar inserir tarefa");
                 return new StatusCodeResult(500);
             }
 

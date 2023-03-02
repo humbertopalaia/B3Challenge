@@ -66,36 +66,40 @@ namespace B3Challenge.Task.Worker
 
         private void Consumer_OnReceived(object sender, Rabbit.ReceivedEventArgs e)
         {
-            var operationMessage = JsonSerializer.Deserialize<OperationMessage>(e.Message);
+            try
+            {
+                _logger.LogInformation(
+                    $"[Nova mensagem | {DateTime.Now:yyyy-MM-dd HH:mm:ss}] " +
+                    e.Message);
 
-            if(operationMessage.OperationType == 0) //Insert
-            {
-                var insertDto = JsonSerializer.Deserialize<Domain.Dtos.Task.TaskInsertDto>(operationMessage.Message);
-                _taskBusiness.Insert(_mapper.Map<Domain.Entities.Task>(insertDto));
+                var operationMessage = JsonSerializer.Deserialize<OperationMessage>(e.Message);
+
+                if (operationMessage.OperationType == 0) //Insert
+                {
+                    var insertDto = JsonSerializer.Deserialize<Domain.Dtos.Task.TaskInsertDto>(operationMessage.Message);
+                    _taskBusiness.Insert(_mapper.Map<Domain.Entities.Task>(insertDto));
+                }
+                else if (operationMessage.OperationType == 1) // Update
+                {
+                    var updateDto = JsonSerializer.Deserialize<Domain.Dtos.Task.TaskUpdateDto>(operationMessage.Message);
+
+                    var entity = _taskBusiness.GetById(updateDto.Id);
+                    entity = _mapper.Map<Domain.Entities.Task>(updateDto);
+
+                    _taskBusiness.Update(entity);
+                }
+                else if (operationMessage.OperationType == 2) // Delete
+                {
+                    var taskId = Convert.ToInt32(operationMessage.Message);
+                    _taskBusiness.Delete(taskId);
+                }
+
             }
-            else if(operationMessage.OperationType == 1) // Update
+            catch (Exception ex)
             {
-                var updateDto = JsonSerializer.Deserialize<Domain.Dtos.Task.TaskUpdateDto>(operationMessage.Message);
+                _logger.LogError(ex, "Erro ao tratar mensagem");
+            }
            
-                var entity = _taskBusiness.GetById(updateDto.Id);
-                entity = _mapper.Map<Domain.Entities.Task>(updateDto);
-
-                _taskBusiness.Update(entity);
-            }
-            else if (operationMessage.OperationType == 2) // Delete
-            {
-                var taskId = Convert.ToInt32(operationMessage.Message);
-                _taskBusiness.Delete(taskId);
-            }
-            else if (operationMessage.OperationType == 3) // Select
-            {
-
-            }
-
-
-            _logger.LogInformation(
-                $"[Nova mensagem | {DateTime.Now:yyyy-MM-dd HH:mm:ss}] " +
-                e.Message);
         }
     }
 }

@@ -5,6 +5,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using NLog.Extensions.Logging;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System.Text;
@@ -19,9 +21,8 @@ namespace B3ChallengeTaskService
 
         public static void Main(string[] args)
         {
-            Console.WriteLine(
-                "*** Testando o consumo de mensagens com RabbitMQ + Filas ***");
-
+            var logger = NLog.LogManager.GetLogger("UpperLevel");
+            logger.Info("init main");
 
             CreateHostBuilder(args).Build().Run();
         }
@@ -47,6 +48,15 @@ namespace B3ChallengeTaskService
                     services.AddHostedService<Worker>();
                     services.AddDbContext<MainDbContext>(options => options.UseSqlServer());
                     services.AddAutoMapper(typeof(Program));
+                    services.AddLogging(loggingBuilder =>
+                     {
+                         // configure Logging with NLog
+                         loggingBuilder.ClearProviders();
+                         loggingBuilder.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Trace);
+                         loggingBuilder.AddNLog(configuration);
+                         loggingBuilder.AddConsole();
+                     });
+
                     DependencyInjectionConfig.RegisterAll(services, GetConfiguration());
                 });
     }
