@@ -9,8 +9,10 @@ namespace B3Challenge.Rabbit
 {
     public interface IRabbitConsumer
     {
+        bool IsConnected { get; }
+
         public event OnReceivedEventHandler OnReceived;
 
-        public void ConsumeQueue(string queueName);
+        public bool ConsumeQueue(string queueName);
     }
 }

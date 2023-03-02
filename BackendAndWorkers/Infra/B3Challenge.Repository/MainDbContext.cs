@@ -15,17 +15,23 @@ namespace B3Challenge.Repository
     {
         private readonly string _connectionString;
 
+        public MainDbContext(string connectionString)
+        {
+            _connectionString = connectionString;
+        }
 
-        public MainDbContext(DbContextOptions<MainDbContext> options, IConfiguration configuration)
+        public MainDbContext(DbContextOptions<MainDbContext> options)
             : base(options)
         {
-            _connectionString = configuration.GetConnectionString("Default");
-            this.ChangeTracker.LazyLoadingEnabled= false;
+            this.ChangeTracker.LazyLoadingEnabled = false;
+
         }
+
+
 
         public DbSet<Domain.Entities.Task> Task { get; set; }
         public DbSet<Domain.Entities.TaskStatus> TaskStatus { get; set; }
-       
+
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

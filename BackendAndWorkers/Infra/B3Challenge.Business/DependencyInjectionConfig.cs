@@ -20,12 +20,6 @@ namespace B3Challenge.Business
             services.AddScoped<TaskRepository, TaskRepository>();
             #endregion
 
-            #region Business
-            services.AddScoped<ITaskBusiness, TaskBusiness>();
-
-            #endregion
-
-        
 
             return services;
 
@@ -46,14 +40,14 @@ namespace B3Challenge.Business
         public static IServiceCollection RegisterRabbit(this IServiceCollection services, IConfiguration configuration)
         {
             #region Others
-            services.AddScoped<IRabbitConsumer, RabbitConsumer>(opt => {
+            services.AddSingleton<IRabbitConsumer, RabbitConsumer>(opt => {
                 var hostName = configuration["Rabbit:Host"];
                 var userName = configuration["Rabbit:User"];
                 var password = configuration["Rabbit:Password"];
                 return new RabbitConsumer(hostName, userName, password);
             });
 
-            services.AddScoped<IRabbitSender, RabbitSender>(opt => {
+            services.AddSingleton<IRabbitSender, RabbitSender>(opt => {
                 var hostName = configuration["Rabbit:Host"];
                 var userName = configuration["Rabbit:User"];
                 var password = configuration["Rabbit:Password"];

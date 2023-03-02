@@ -16,10 +16,11 @@ using AutoMapper;
 using System.Text.Json;
 using B3Challenge.Business.Interfaces;
 using B3Challenge.Business;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace B3Challenge.Task.Worker
 {
-    public class Worker : BackgroundService
+    public class Worker
     {
         private readonly ILogger<Worker> _logger;
         private readonly IMapper _mapper;
@@ -29,7 +30,7 @@ namespace B3Challenge.Task.Worker
         private readonly string _queueName;
         private readonly ITaskBusiness _taskBusiness;
 
-        public Worker(ILogger<Worker> logger, IMapper mapper, IConfiguration configuration, IRabbitConsumer consumer, ITaskBusiness taskBusiness)
+        public Worker(ILogger<Worker> logger, IMapper mapper, IConfiguration configuration, IRabbitConsumer consumer, ITaskBusiness taskBusiness, IServiceScopeFactory serviceScopeFactory)
         {
             _configuration= configuration;
             _mapper = mapper;
@@ -49,18 +50,33 @@ namespace B3Challenge.Task.Worker
             _logger = logger;
         }
 
-        protected override async System.Threading.Tasks.Task ExecuteAsync(CancellationToken stoppingToken)
+        public IServiceProvider Services => throw new NotImplementedException();
+
+        public void Run()
         {
-            _logger.LogInformation(
-                "Aguardando mensagens...");
+            var rabbitConnected = false;
 
-            _consumer.ConsumeQueue(_queueName);
-
-            while (!stoppingToken.IsCancellationRequested)
+            while (true)
             {
-                _logger.LogInformation(
-                    $"Worker ativo em: {DateTime.Now:yyyy-MM-dd HH:mm:ss}");
-                await System.Threading.Tasks.Task.Delay(_intervalRabbitConsume, stoppingToken);
+                if(!rabbitConnected)
+                {
+                    _logger.LogInformation("Tentando conectar ao Rabbit...");
+                    _consumer.ConsumeQueue(_queueName);
+
+                    if(_consumer.IsConnected)
+                        _logger.LogInformation("Conectado ao Rabbit");
+                }
+                else
+                {                   
+
+                    _logger.LogInformation(
+                        $"Worker ativo em: {DateTime.Now:yyyy-MM-dd HH:mm:ss}");
+                    System.Threading.Thread.Sleep(_intervalRabbitConsume);
+                }
+
+
+                rabbitConnected = _consumer.IsConnected;
+
             }
         }
 

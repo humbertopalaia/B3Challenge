@@ -12,20 +12,25 @@ namespace B3Challenge.Rabbit
 
         public void QueueMessage(OperationMessage operationMessage, string queueName)
         {
-            _channel.QueueDeclare(queue: queueName,
-                                 durable: false,
-                                 exclusive: false,
-                                 autoDelete: false,
-                                 arguments: null);
+            Connect();
+
+            if (_channel != null && _channel.IsOpen)
+            {
+                _channel.QueueDeclare(queue: queueName,
+                                     durable: false,
+                                     exclusive: false,
+                                     autoDelete: false,
+                                     arguments: null);
 
 
-            var message = JsonSerializer.Serialize(operationMessage);
-            var body = Encoding.UTF8.GetBytes(message);
+                var message = JsonSerializer.Serialize(operationMessage);
+                var body = Encoding.UTF8.GetBytes(message);
 
-            _channel.BasicPublish(exchange: string.Empty,
-                                 routingKey: queueName,
-                                 basicProperties: null,
-                                 body: body);
+                _channel.BasicPublish(exchange: string.Empty,
+                                     routingKey: queueName,
+                                     basicProperties: null,
+                                     body: body);
+            }
         }
     }
 }

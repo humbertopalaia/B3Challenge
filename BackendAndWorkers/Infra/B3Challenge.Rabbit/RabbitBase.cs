@@ -12,8 +12,8 @@ namespace B3Challenge.Rabbit
         protected readonly string _host;
         protected readonly string _username;
         protected readonly string _password;
-        protected readonly IConnection _connection;
-        protected readonly IModel _channel;
+        protected IConnection _connection;
+        protected IModel _channel;
 
 
         public RabbitBase(string host, string username, string password)
@@ -22,9 +22,23 @@ namespace B3Challenge.Rabbit
             _username = username;
             _password = password;
 
+         
+        }
+
+        protected void Connect()
+        {
             var factory = new ConnectionFactory { HostName = _host, UserName = _username, Password = _password };
-            _connection = factory.CreateConnection();
-            _channel = _connection.CreateModel();
+
+
+            if (_connection == null || !_connection.IsOpen)
+            {
+                _connection = factory.CreateConnection();
+            }
+
+            if (_channel == null || !_channel.IsOpen)
+            {
+                _channel = _connection.CreateModel();
+            }
         }
 
     }
