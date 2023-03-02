@@ -6,18 +6,18 @@ services:
     build:
       context: .
       dockerfile: B3Challenge.Task.Worker/Dockerfile
-    #depends_on:
-    #  - "rabbitmq"
+    depends_on:
+      - "rabbitmq"
 
-  #rabbitmq: # login guest:guest
-  #  image: rabbitmq:3-management
-  #  hostname: "rabbitmq"
-  #  labels:
-  #    NAME: "rabbitmq"
-  #  ports:
-  #  - "4369:4369"
-  #  - "5671:5671"
-  #  - "5672:5672"
-  #  - "25672:25672"
-  #  - "15671:15671"
-  #  - "15672:15672"
+  rabbitmq: # login guest:guest
+    image: rabbitmq:3-management
+    hostname: "rabbitmq"
+    labels:
+      NAME: "rabbitmq"
+    ports:
+    - "4369:4369"
+    - "5671:5671"
+    - "5672:5672"
+    - "25672:25672"
+    - "15671:15671"
+    - "15672:15672"
