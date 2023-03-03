@@ -1,14 +1,14 @@
 {
   "profiles": {
-    "B3Challenge.Gateway.API": {
-      "commandName": "Project",
+    "B3Challenge.ReadOnly.API": {
+      "commandName": "IISExpress",
       "launchBrowser": true,
       "launchUrl": "swagger",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "dotnetRunMessages": true,
-      "applicationUrl": "https://localhost:7086;http://localhost:5196"
+      "applicationUrl": "https://localhost:7287;http://localhost:5297"
     },
     "IIS Express": {
       "commandName": "IISExpress",

@@ -1,6 +1,6 @@
 {
   "profiles": {
-    "B3Challenge.Gateway.API": {
+    "B3Challenge.Search.API": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "swagger",
@@ -8,7 +8,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "dotnetRunMessages": true,
-      "applicationUrl": "https://localhost:7086;http://localhost:5196"
+      "applicationUrl": "https://localhost:7190;http://localhost:5148"
     },
     "IIS Express": {
       "commandName": "IISExpress",
@@ -31,8 +31,8 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:60481",
-      "sslPort": 44308
+      "applicationUrl": "http://localhost:12847",
+      "sslPort": 44398
     }
   }
 }
