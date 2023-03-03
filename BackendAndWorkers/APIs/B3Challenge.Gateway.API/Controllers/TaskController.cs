@@ -9,10 +9,12 @@ namespace B3Challenge.API.Controllers
     {
 
         private ILogger<TaskController> _logger;
+        private readonly IConfiguration _configuration;
 
-        public TaskController(ILogger<TaskController> logger)
+        public TaskController(ILogger<TaskController> logger, IConfiguration configuration)
         {
             _logger = logger;
+            _configuration = configuration;
         }
 
         [HttpPut]
@@ -21,7 +23,7 @@ namespace B3Challenge.API.Controllers
         {
             try
             {
-                var sender = new RabbitSender("localhost", "guest", "guest");
+                var sender = new RabbitSender(_configuration["Rabbit:Host"], _configuration["Rabbit:User"], _configuration["Rabbit:Password"]);
                 var message = new OperationMessage();
                 message.MessageId = Guid.NewGuid().ToString();
                 message.OperationType = 0;
