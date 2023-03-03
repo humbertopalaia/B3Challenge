@@ -18,7 +18,7 @@ namespace B3Challenge.API.Controllers
         }
 
         [HttpPut]
-        [Route("/api/Insert")]
+        [Route("/api/[controller]/Insert")]
         public IActionResult Insert([FromBody] Domain.Dtos.Task.TaskInsertDto dto)
         {
             try
@@ -42,7 +42,7 @@ namespace B3Challenge.API.Controllers
 
 
         [HttpDelete]
-        [Route("/api/Delete/{id}")]
+        [Route("/api/[controller]/Delete/{id}")]
         public IActionResult Delete(int id)
         {
             try
@@ -65,7 +65,7 @@ namespace B3Challenge.API.Controllers
         }
 
         [HttpPost]
-        [Route("/api/Update/{id}")]
+        [Route("/api/[controller]/Update/{id}")]
         public IActionResult Update([FromBody] Domain.Dtos.Task.TaskUpdateDto dto)
         {
 
@@ -86,6 +86,41 @@ namespace B3Challenge.API.Controllers
             }
 
             return Accepted();
+        }
+        [HttpGet]
+        [Route("/api/[controller]/Filter")]
+        public async Task<string> Filter(string sentence)
+        {
+            var urlSearch = $"{_configuration["UrlApiSearch"]}/api/task/filter?description={sentence}";
+            
+            return await Get(urlSearch);
+        }
+
+
+        private async Task<string> Get(string url)
+        {
+            var response = await RequestApi(url, HttpMethod.Get);
+            return await response.Content.ReadAsStringAsync();
+            //return Deserialize<T>(response);
+        }
+
+        private async Task<HttpResponseMessage> RequestApi(string uri, HttpMethod method)
+        {
+            using var client = new HttpClient();
+            client.BaseAddress = new Uri(uri);
+            client.DefaultRequestHeaders.Accept.Clear();
+            HttpResponseMessage response;
+
+            if (method == HttpMethod.Post)
+                response = await client.PostAsync(uri, null);
+            else if (method == HttpMethod.Get)
+                response = await client.GetAsync(uri);
+            else if (method == HttpMethod.Patch)
+                response = await client.PatchAsync(uri, null);
+            else
+                throw new NotImplementedException();
+
+            return response;
         }
     }
 }

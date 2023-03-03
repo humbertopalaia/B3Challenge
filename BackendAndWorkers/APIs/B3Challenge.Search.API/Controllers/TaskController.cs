@@ -24,7 +24,7 @@ namespace B3Challenge.Search.API.Controllers
         }
 
         [HttpGet]
-        [Route("/api/Filter")]
+        [Route("/api/[controller]/Filter")]
         public IActionResult Filter(int? id, string? description, int? taskStatusId)
         {
             try

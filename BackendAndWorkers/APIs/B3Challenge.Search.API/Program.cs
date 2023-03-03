@@ -33,6 +33,14 @@ namespace B3Challenge.Search.API
                 //builder.Services.AddDbContext<MainDbContext>(options => options.UseSqlServer());
                 builder.Services.AddAutoMapper(typeof(Program));
 
+                builder.Services.AddCors(o => o.AddPolicy("CustomPolicy", builder =>
+                {
+                    builder.AllowAnyOrigin()
+                           .AllowAnyMethod()
+                           .AllowAnyHeader();
+                }));
+
+
                 DependencyInjectionConfig.RegisterRepositories(builder.Services);
                 DependencyInjectionConfig.RegisterBusiness(builder.Services);
 
@@ -49,6 +57,7 @@ namespace B3Challenge.Search.API
 
                 app.UseAuthorization();
 
+                app.UseCors("CustomPolicy");
 
                 app.MapControllers();
 
