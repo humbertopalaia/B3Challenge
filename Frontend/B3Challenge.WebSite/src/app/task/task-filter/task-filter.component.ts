@@ -66,7 +66,7 @@ export class TaskFilterComponent implements OnInit {
       dateValues = dateFilterText.split('/');
 
     if (dateValues.length == 3)
-      dateFilter = new Date(parseInt(dateValues[2]), parseInt(dateValues[1]), parseInt(dateValues[0]));
+      dateFilter = new Date(parseInt(dateValues[2]), parseInt(dateValues[1])-1, parseInt(dateValues[0]));
 
     this.onFilter.emit({ description: descriptionFilterText, date: (dateFilter ? dateFilter : null), taskStatusId: (statusFilterText ? parseInt(statusFilterText) : null) });
   }

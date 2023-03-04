@@ -12,7 +12,7 @@
 
             <mat-form-field class="field-date" appearance="fill">
                 <mat-label>Escolha uma data</mat-label>
-                <input formControlName="date" matInput [matDatepicker]="picker" autocomplete="off">
+                <input formControlName="date" matInput [matDatepicker]="picker" (dateChange)="onSelectContractDate($event)"   autocomplete="off">
                 <mat-hint>DD/MM/YYYY</mat-hint>
                 <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>
@@ -41,7 +41,6 @@
     <mat-divider></mat-divider>
     <mat-card-actions>
         <app-image-button class="filter-button" [icon]="'save'" [label]="'Salvar'" (click)="save()"></app-image-button>
-        <app-image-button class="filter-button" [icon]="'cancel'" [label]="'Cancelar'"
-            (click)="cancel()"></app-image-button>
+        <app-image-button class="filter-button" [icon]="'cancel'" [label]="'Cancelar'" (click)="cancel()"></app-image-button>
     </mat-card-actions>
 </mat-card>

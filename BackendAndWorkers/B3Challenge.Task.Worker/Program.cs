@@ -56,7 +56,7 @@ namespace B3Challenge.Task.Worker
                  loggingBuilder.AddConsole();
              });
 
-            services.AddSingleton<MainDbContext>(s => new MainDbContext(configuration.GetConnectionString("Default")));
+            services.AddScoped<MainDbContext>(s => new MainDbContext(configuration.GetConnectionString("Default")));
             services.AddSingleton<IConfiguration>(c => configuration);
             services.AddSingleton<Worker, Worker>();
 

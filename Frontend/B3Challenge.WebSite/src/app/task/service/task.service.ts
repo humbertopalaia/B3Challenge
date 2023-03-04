@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { Task } from '../entities/task';
 import { TaskFilter } from '../entities/task-filter';
+import { TaskDto } from '../entities/task-dto';
+import { DatePipe } from '@angular/common';
 
 
 // const API = environment.apiUrl;
@@ -12,27 +14,44 @@ const API_URL = 'https://localhost:11594/api'
 export class TaskService {
 
 
-    constructor(private http: HttpClient) {
-    
+    constructor(private http: HttpClient, private datePipe: DatePipe) {
+
     }
 
-    // salvar(dado:Funcionario) {
-    //     return this.http.post(API + '/funcionario/Salvar', dado );
-    // }
+    save(entity: Task)  {
+        if (entity.id == 0) {
 
-    // excluir(id:number)
-    // {
-    //     return this.http.post(API + '/funcionario/Apagar', {id:id}  );
-    // }
+            let url = `${API_URL}/task/insert`;
+
+            const dateFormated = this.datePipe.transform(entity.date, 'yyyy-MM-dd');
+            url = `${url}?id=${entity.id}&description=${entity.description}&date=${dateFormated}&taskStatusId=${entity.taskStatusId}`
+
+            return this.http.put<Task>(url, entity);
+        }
+        else
+        {
+            let url = `${API_URL}/task/update`;
+
+            return this.http.post<Task>(url, entity);
+        }
+
+    }
 
 
-    listar(filter: TaskFilter|null) {
+    delete(id:number)
+    {
+        let url = `${API_URL}/task/delete/${id}`;
+
+        return this.http.delete(url);
+    }
+
+
+    list(filter: TaskFilter | null) {
 
         let url = `${API_URL}/task/filter`;
-        if(filter)
-        {
+        if (filter) {
 
-            const filterDate = (filter.date ? filter.date.getFullYear() + "-" + ("0" + (filter.date.getMonth())).slice(-2) + "-" +  ("0" + (filter.date.getDate())).slice(-2): null);
+            const filterDate = this.datePipe.transform(filter.date, 'yyyy-MM-dd');
             url = `${url}?description=${filter.description}&taskStatusId=${filter.taskStatusId}&date=${filterDate}`
         }
 

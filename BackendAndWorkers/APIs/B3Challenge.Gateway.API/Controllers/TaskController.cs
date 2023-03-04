@@ -19,7 +19,7 @@ namespace B3Challenge.API.Controllers
 
         [HttpPut]
         [Route("/api/[controller]/Insert")]
-        public IActionResult Insert([FromBody] Domain.Dtos.Task.TaskInsertDto dto)
+        public IActionResult Insert(Domain.Dtos.Task.TaskInsertDto dto)
         {
             try
             {
@@ -28,7 +28,6 @@ namespace B3Challenge.API.Controllers
                 message.MessageId = Guid.NewGuid().ToString();
                 message.OperationType = 0;
                 message.Message = dto.ToString();
-
                 sender.QueueMessage(message, "operationQueue");
             }
             catch (Exception ex)
@@ -47,12 +46,11 @@ namespace B3Challenge.API.Controllers
         {
             try
             {
-                var sender = new RabbitSender("localhost", "guest", "guest");
+                var sender = new RabbitSender(_configuration["Rabbit:Host"], _configuration["Rabbit:User"], _configuration["Rabbit:Password"]);
                 var message = new OperationMessage();
                 message.MessageId = Guid.NewGuid().ToString();
                 message.OperationType = 2;
                 message.Message = id.ToString();
-
                 sender.QueueMessage(message, "operationQueue");
             }
             catch (Exception ex)
@@ -65,13 +63,13 @@ namespace B3Challenge.API.Controllers
         }
 
         [HttpPost]
-        [Route("/api/[controller]/Update/{id}")]
+        [Route("/api/[controller]/Update")]
         public IActionResult Update([FromBody] Domain.Dtos.Task.TaskUpdateDto dto)
         {
 
             try
             {
-                var sender = new RabbitSender("localhost", "guest", "guest");
+                var sender = new RabbitSender(_configuration["Rabbit:Host"], _configuration["Rabbit:User"], _configuration["Rabbit:Password"]);
                 var message = new OperationMessage();
                 message.MessageId = Guid.NewGuid().ToString();
                 message.OperationType = 1;
@@ -94,7 +92,7 @@ namespace B3Challenge.API.Controllers
             var urlSearch = $"{_configuration["UrlApiSearch"]}/api/task/filter?description={description}&taskStatusId={taskStatusId}&date={date}";
             return await Get(urlSearch);
         }
-
+            
 
         private async Task<string> Get(string url)
         {

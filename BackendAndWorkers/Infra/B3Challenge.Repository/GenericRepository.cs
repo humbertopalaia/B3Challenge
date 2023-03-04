@@ -27,7 +27,7 @@ namespace B3Challenge.Repository
 
             if (filter != null)
             {
-                query = query.Where(filter);
+                query = query.AsNoTracking().Where(filter);
             }
 
             if (includeProperties != null)
@@ -41,11 +41,11 @@ namespace B3Challenge.Repository
 
             if (orderBy != null)
             {
-                return orderBy(query).ToList();
+                return orderBy(query).AsNoTracking().ToList();
             }
             else
             {
-                return query.ToList();
+                return query.AsNoTracking().ToList();
             }
         }
 
@@ -81,12 +81,33 @@ namespace B3Challenge.Repository
             _context.SaveChanges();
         }
 
+
+        public virtual void DetachLocal(Func<T, bool> predicate)
+        {
+            var local = _context.Set<T>().Local
+                .Where(predicate)
+                .FirstOrDefault();
+
+            if (local != null)
+            {
+                _context.Entry(local).State = EntityState.Detached;
+            }
+        }
+
+        //private void DetachLocal(Func<T,bool> predicate)
+        //{
+        //    var local = _context.Set<T>().Local.Where(predicate).FirstOrDefault();
+        //    if(local != null)
+        //        _context.Entry(local).State = EntityState.Detached;
+        //}
+
+
         public void Update(T entity, bool autoSave = true)
         {
-            _dbSet.Attach(entity);
-            _context.Entry(entity).State = EntityState.Modified;
-            
-            if (autoSave) SaveChanges();
+
+            _context.Set<T>().Update(entity);
+
+            SaveChanges();
         }
 
         public IQueryable<T> GetAll()
