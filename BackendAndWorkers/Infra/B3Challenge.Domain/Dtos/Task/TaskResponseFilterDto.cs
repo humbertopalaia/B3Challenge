@@ -12,5 +12,7 @@ namespace B3Challenge.Domain.Dtos.Task
         public string Description { get; set; }
         public DateTime Date { get; set; }
         public int TaskStatusId { get; set; }
-    }
+
+        public TaskStatusDto TaskStatus { get;set;}
+}
 }

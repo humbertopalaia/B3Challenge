@@ -89,10 +89,9 @@ namespace B3Challenge.API.Controllers
         }
         [HttpGet]
         [Route("/api/[controller]/Filter")]
-        public async Task<string> Filter(string sentence)
+        public async Task<string> Filter(string? description, int? taskStatusId, DateTime? date)
         {
-            var urlSearch = $"{_configuration["UrlApiSearch"]}/api/task/filter?description={sentence}";
-            
+            var urlSearch = $"{_configuration["UrlApiSearch"]}/api/task/filter?description={description}&taskStatusId={taskStatusId}&date={date}";
             return await Get(urlSearch);
         }
 
@@ -101,15 +100,18 @@ namespace B3Challenge.API.Controllers
         {
             var response = await RequestApi(url, HttpMethod.Get);
             return await response.Content.ReadAsStringAsync();
-            //return Deserialize<T>(response);
         }
 
         private async Task<HttpResponseMessage> RequestApi(string uri, HttpMethod method)
         {
-            using var client = new HttpClient();
+            HttpClientHandler clientHandler = new HttpClientHandler();
+            clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
+
+            using var client = new HttpClient(clientHandler);
             client.BaseAddress = new Uri(uri);
             client.DefaultRequestHeaders.Accept.Clear();
             HttpResponseMessage response;
+
 
             if (method == HttpMethod.Post)
                 response = await client.PostAsync(uri, null);

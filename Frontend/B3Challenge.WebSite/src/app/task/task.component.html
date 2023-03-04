@@ -5,9 +5,9 @@
 </div>
 
 <div class="commands">
-    <app-task-filter></app-task-filter>
+    <app-task-filter (onFilter)="filter($event)" (onClear)="clear()"></app-task-filter>
 </div>
 
 <div class="commands">
-    <app-task-list></app-task-list>
+    <app-task-list #taskList ></app-task-list>
 </div>

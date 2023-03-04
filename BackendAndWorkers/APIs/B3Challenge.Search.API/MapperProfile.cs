@@ -13,6 +13,7 @@ namespace B3Challenge.Search.API
         public MapperProfile()
         {
             CreateMap<Domain.Entities.Task, TaskResponseFilterDto>();
+            CreateMap<Domain.Entities.TaskStatus, TaskStatusDto>();
         }
 
     }

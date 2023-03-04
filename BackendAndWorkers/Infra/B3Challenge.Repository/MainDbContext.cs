@@ -47,6 +47,7 @@ namespace B3Challenge.Repository
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             OnModelCreatingPartial(modelBuilder);
+
         }
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);

@@ -13,6 +13,10 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {MatSelectModule } from '@angular/material/select';
 import {MatCardModule } from '@angular/material/card';
+import {MatDatepickerModule,  } from '@angular/material/datepicker';
+import { DateAdapter, MatNativeDateModule } from '@angular/material/core';
+import { MAT_DATE_FORMATS, MAT_DATE_LOCALE  } from '@angular/material/core';
+import { MomentDateAdapter } from '@angular/material-moment-adapter';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -24,6 +28,18 @@ import { TaskFilterComponent } from './task/task-filter/task-filter.component';
 import { TaskListComponent } from './task/task-list/task-list.component';
 import { HttpClientModule } from '@angular/common/http';
 
+
+export const MY_FORMATS = {
+  parse: {
+    dateInput: 'LL',
+  },
+  display: {
+    dateInput: 'DD/MM/YYYY',
+    monthYearLabel: 'YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'YYYY',
+  },
+};
 
 @NgModule({
   declarations: [
@@ -51,8 +67,14 @@ import { HttpClientModule } from '@angular/common/http';
     MatInputModule,
     MatSelectModule,
     MatCardModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
   ],
-  providers: [],
+ 
+  providers: [
+    {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
+    {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

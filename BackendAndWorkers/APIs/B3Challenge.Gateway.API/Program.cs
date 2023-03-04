@@ -28,6 +28,13 @@ namespace B3Challenge.Gateway.API
                 builder.Services.AddEndpointsApiExplorer();
                 builder.Services.AddSwaggerGen();
 
+                builder.Services.AddCors(o => o.AddPolicy("CustomPolicy", builder =>
+                {
+                    builder.AllowAnyOrigin()
+                           .AllowAnyMethod()
+                           .AllowAnyHeader();
+                }));
+
 
                 var app = builder.Build();
 
@@ -42,6 +49,7 @@ namespace B3Challenge.Gateway.API
 
                 app.UseAuthorization();
 
+                app.UseCors("CustomPolicy");
 
                 app.MapControllers();
 

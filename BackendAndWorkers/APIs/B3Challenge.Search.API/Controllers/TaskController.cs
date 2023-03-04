@@ -25,11 +25,11 @@ namespace B3Challenge.Search.API.Controllers
 
         [HttpGet]
         [Route("/api/[controller]/Filter")]
-        public IActionResult Filter(int? id, string? description, int? taskStatusId)
+        public IActionResult Filter(int? id, string? description, int? taskStatusId, DateTime? date)
         {
             try
             {
-                var list = _taskBusiness.Filter(new Domain.Dtos.Task.TaskFilterDto(id, description, taskStatusId));
+                var list = _taskBusiness.Filter(new Domain.Dtos.Task.TaskFilterDto(id, description, taskStatusId, date));
                 return Json(_mapper.Map<List<TaskResponseFilterDto>>(list));
             }
             catch (Exception ex)

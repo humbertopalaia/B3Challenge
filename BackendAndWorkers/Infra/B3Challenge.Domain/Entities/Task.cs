@@ -14,6 +14,7 @@ namespace B3Challenge.Domain.Entities
         public int Id { get; set; }
         public string Description { get; set; }
         public DateTime Date { get; set; }
+
         public int TaskStatusId { get; set; }
 
         public TaskStatus TaskStatus { get; set; }

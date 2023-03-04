@@ -1,11 +1,36 @@
 <mat-card>
     <mat-card-header>
-        <mat-card-title></mat-card-title>      
-      </mat-card-header>
-    <mat-card-content>        
-        <mat-form-field class="filter">
-            <mat-label>Digite algo para filtrar</mat-label>
-            <input matInput placeholder="Ex. Reunião Diária" value="" autocomplete="off">
+        <mat-card-title></mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <mat-form-field class="filter-description">
+            <mat-label>Descrição</mat-label>
+            <input  #description matInput placeholder="Ex. Reunião Diária" value="" autocomplete="off">
+        </mat-form-field>
+
+
+        <mat-form-field class="filter-date" appearance="fill">
+            <mat-label>Escolha uma data</mat-label>
+            <input #date matInput [matDatepicker]="picker"  autocomplete="off">
+            <mat-hint>DD/MM/YYYY</mat-hint>
+            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+
+
+        <mat-form-field class="filter-status" appearance="fill">
+            <mat-label>Status</mat-label>
+            <mat-select #status name="status">
+              <mat-option value="1">Pendente</mat-option>
+              <mat-option value="2">Em andamento</mat-option>
+              <mat-option value="3">Parada</mat-option>
+              <mat-option value="4">Concluída</mat-option>
+            </mat-select>
           </mat-form-field>
+
+    <app-image-button class="filter-button" [icon]="'search'" [label]="'Filtrar'" (click)="filter()"></app-image-button>
+    <app-image-button class="filter-button" [icon]="'clean'" [label]="'Limpar'" (click)="clear()"></app-image-button>
+    
+
     </mat-card-content>
 </mat-card>

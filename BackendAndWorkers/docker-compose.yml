@@ -22,3 +22,30 @@ services:
     - "15671:15671"
     - "15672:15672"
 
+
+  b3challenge.gateway.api:
+    image: ${DOCKER_REGISTRY-}b3challengegatewayapi
+    hostname: "gateway"
+    ports:
+    - "11594:443"
+    build:
+      context: .
+      dockerfile: APIs/B3Challenge.Gateway.API/Dockerfile    
+    depends_on:
+      - "rabbitmq"
+
+
+  b3challenge.search.api:
+    image: ${DOCKER_REGISTRY-}b3challengesearchapi
+    hostname: "searchapi"
+    ports:
+    - "11593:443"
+    build:
+      context: .
+      dockerfile: APIs/B3Challenge.Search.API/Dockerfile
+
+
+ 
+
+
+
