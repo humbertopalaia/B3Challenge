@@ -22,9 +22,9 @@ export class TaskNewEditComponent implements OnInit {
   private currentDate!:string;
 
   public taskForm = new FormGroup({
-    description: new FormControl(''),
-    date: new FormControl(''),
-    status: new FormControl('')
+    description: new FormControl('', Validators.required),
+    date: new FormControl('', Validators.required),
+    status: new FormControl('', Validators.required)
   });
 
   constructor(private dialogRef: MatDialogRef<TaskNewEditComponent>, private datePipe: DatePipe) {
@@ -63,25 +63,28 @@ export class TaskNewEditComponent implements OnInit {
 
   save() {
 
-    const id = this.id;
-    const newDescription = this.taskForm.get('description')!.value;
-    
-    const newStatusId = this.taskForm.get('status')!.value;
-    
-    const splitedDate = this.currentDate.split('-');
-    let newDate = null;
-    if(splitedDate.length == 3)
+    if(!this.taskForm.invalid)
     {
-      newDate = new Date(parseInt(splitedDate[0]), parseInt(splitedDate[1])-1, parseInt(splitedDate[2]));
+      const id = this.id;
+      const newDescription = this.taskForm.get('description')!.value;
+      
+      const newStatusId = this.taskForm.get('status')!.value;
+      
+      const splitedDate = this.currentDate.split('-');
+      let newDate = null;
+      if(splitedDate.length == 3)
+      {
+        newDate = new Date(parseInt(splitedDate[0]), parseInt(splitedDate[1])-1, parseInt(splitedDate[2]));
+      }
+  
+  
+      let task: Task = { id: this.id, description: newDescription!, date: newDate, taskStatusId: parseInt(newStatusId!), TaskStatus: null };
+      
+      this.onSave.emit(task);
+  
+  
+      this.dialogRef.close();
     }
-
-
-    let task: Task = { id: this.id, description: newDescription!, date: newDate, taskStatusId: parseInt(newStatusId!), TaskStatus: null };
     
-    this.onSave.emit(task);
-
-
-
-    this.dialogRef.close();
   }
 }

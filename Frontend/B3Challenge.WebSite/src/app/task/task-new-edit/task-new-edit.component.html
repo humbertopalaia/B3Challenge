@@ -39,8 +39,10 @@
 
     </mat-card-content>
     <mat-divider></mat-divider>
-    <mat-card-actions>
-        <app-image-button class="filter-button" [icon]="'save'" [label]="'Salvar'" (click)="save()"></app-image-button>
-        <app-image-button class="filter-button" [icon]="'cancel'" [label]="'Cancelar'" (click)="cancel()"></app-image-button>
+    <mat-card-actions class="mat-card-actions">
+        <div>
+            <app-image-button class="action-button" [icon]="'save'" [label]="'Salvar'" (click)="save()"></app-image-button>
+            <app-image-button class="action-button" [icon]="'cancel'" [label]="'Cancelar'" (click)="cancel()"></app-image-button>
+        </div>        
     </mat-card-actions>
 </mat-card>
