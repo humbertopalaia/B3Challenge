@@ -17,7 +17,6 @@ export class TaskFilterComponent implements OnInit {
   @ViewChild('description') description!: ElementRef;
   @ViewChild('status') status!: MatSelect;
   @ViewChild('date') date!: ElementRef;
-  @ViewChild('date') datePicker!: MatDatepicker<any>;
 
   @Output() onFilter = new EventEmitter<TaskFilter>();
   @Output() onClear = new EventEmitter();
@@ -25,7 +24,6 @@ export class TaskFilterComponent implements OnInit {
 
   }
   ngOnInit(): void {
-    // this.datePicker.setLocale('pt-br');
   }
 
 

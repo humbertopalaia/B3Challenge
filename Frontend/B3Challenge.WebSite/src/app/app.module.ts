@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 
 import {MatToolbarModule} from '@angular/material/toolbar';
@@ -17,6 +17,7 @@ import {MatDatepickerModule,  } from '@angular/material/datepicker';
 import { DateAdapter, MatNativeDateModule } from '@angular/material/core';
 import { MAT_DATE_FORMATS, MAT_DATE_LOCALE  } from '@angular/material/core';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
+import { MatDividerModule } from '@angular/material/divider';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -27,7 +28,7 @@ import { ImageButtonComponent } from './shared/image-button/image-button.compone
 import { TaskFilterComponent } from './task/task-filter/task-filter.component';
 import { TaskListComponent } from './task/task-list/task-list.component';
 import { HttpClientModule } from '@angular/common/http';
-
+import { TaskNewEditComponent } from './task-new-edit/task-new-edit.component';
 
 export const MY_FORMATS = {
   parse: {
@@ -49,7 +50,8 @@ export const MY_FORMATS = {
     TaskComponent,
     ImageButtonComponent,
     TaskFilterComponent,
-    TaskListComponent
+    TaskListComponent,
+    TaskNewEditComponent
   ],
   imports: [
     BrowserModule,
@@ -57,6 +59,7 @@ export const MY_FORMATS = {
     NoopAnimationsModule,
     FormsModule,
     HttpClientModule,
+    ReactiveFormsModule,
     
     MatToolbarModule,
     MatTableModule,
@@ -69,6 +72,7 @@ export const MY_FORMATS = {
     MatCardModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatDividerModule
   ],
  
   providers: [

@@ -5,6 +5,6 @@ export interface Task {
     description: string;  
     date : string;
     taskStatusId:number;
-    TaskStatus: TaskStatus
+    TaskStatus: TaskStatus|null;
   }
   

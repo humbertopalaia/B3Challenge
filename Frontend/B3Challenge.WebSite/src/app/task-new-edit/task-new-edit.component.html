@@ -1,0 +1,47 @@
+<mat-card class="new-edit">
+    <mat-card-header>
+        <mat-card-title></mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <form [formGroup]="taskForm" >
+            <mat-form-field class="field">
+                <mat-label>Descrição</mat-label>
+                <input formControlName="description" matInput placeholder="Ex. Reunião Diária" value="" autocomplete="off">
+            </mat-form-field>
+            <br>
+
+            <mat-form-field class="field-date" appearance="fill">
+                <mat-label>Escolha uma data</mat-label>
+                <input formControlName="date" matInput [matDatepicker]="picker" autocomplete="off">
+                <mat-hint>DD/MM/YYYY</mat-hint>
+                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+
+            <br>
+
+            <mat-form-field class="field" appearance="fill">
+                <mat-label>Status</mat-label>
+                <mat-select formControlName="status" name="status">
+                    <mat-option value="1">Pendente</mat-option>
+                    <mat-option value="2">Em andamento</mat-option>
+                    <mat-option value="3">Parada</mat-option>
+                    <mat-option value="4">Concluída</mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <br>
+        </form>
+
+
+
+
+
+    </mat-card-content>
+    <mat-divider></mat-divider>
+    <mat-card-actions>
+        <app-image-button class="filter-button" [icon]="'save'" [label]="'Salvar'" (click)="save()"></app-image-button>
+        <app-image-button class="filter-button" [icon]="'cancel'" [label]="'Cancelar'"
+            (click)="cancel()"></app-image-button>
+    </mat-card-actions>
+</mat-card>

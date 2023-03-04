@@ -1,7 +1,9 @@
 import { Component, ViewChild } from '@angular/core';
-import { PageHeaderComponent } from 'src/app/shared/page-header/page-header.component';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { TaskNewEditComponent } from '../task-new-edit/task-new-edit.component';
 import { TaskFilter } from './entities/task-filter';
 import { TaskListComponent } from './task-list/task-list.component';
+import { Task } from './entities/task';
 
 @Component({
   selector: 'app-task',
@@ -11,8 +13,15 @@ import { TaskListComponent } from './task-list/task-list.component';
 export class TaskComponent {
   @ViewChild('taskList') taskList!: TaskListComponent;
 
+  dialogRef!:MatDialogRef<TaskNewEditComponent>;
 
+  constructor(private dialog: MatDialog){}
   
+  openNew() {
+     this.dialogRef = this.dialog.open(TaskNewEditComponent, { disableClose: true });
+     this.dialogRef.componentInstance.fillFields({id:0, date: '', description :'', taskStatusId:1, TaskStatus:null  });
+  }
+
   clear()
   {
     this.taskList.filter(null);
