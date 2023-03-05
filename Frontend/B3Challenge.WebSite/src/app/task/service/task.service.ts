@@ -5,10 +5,9 @@ import { Task } from '../entities/task';
 import { TaskFilter } from '../entities/task-filter';
 import { TaskDto } from '../entities/task-dto';
 import { DatePipe } from '@angular/common';
+import { environment } from 'src/environments/environment';
 
-
-// const API = environment.apiUrl;
-const API_URL = 'https://localhost:11594/api'
+const API_URL = environment.API_URL;
 
 @Injectable({ providedIn: 'root' })
 export class TaskService {
@@ -22,16 +21,13 @@ export class TaskService {
         if (entity.id == 0) {
 
             let url = `${API_URL}/task/insert`;
-
             const dateFormated = this.datePipe.transform(entity.date, 'yyyy-MM-dd');
             url = `${url}?id=${entity.id}&description=${entity.description}&date=${dateFormated}&taskStatusId=${entity.taskStatusId}`
-
             return this.http.put<Task>(url, entity);
         }
         else
         {
             let url = `${API_URL}/task/update`;
-
             return this.http.post<Task>(url, entity);
         }
 
@@ -49,6 +45,7 @@ export class TaskService {
     list(filter: TaskFilter | null) {
 
         let url = `${API_URL}/task/filter`;
+        console.log(url);
         if (filter) {
 
             const filterDate = this.datePipe.transform(filter.date, 'yyyy-MM-dd');
