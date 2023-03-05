@@ -348,3 +348,4 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
+/BackendAndWorkers/B3Challenge.Task.Worker/deploy
