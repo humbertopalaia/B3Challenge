@@ -74,11 +74,11 @@ Frontend desenvolvido em Angular 15 com um cadastro de tarefas desenvolvido de f
     
     - Appsettings:
       
-      Configurar a connection string "Default" de acordo com o ip usuário e senha de 
+      Configurar a connection string "Default" de acordo com o ip usuário e senha de acesso do banco de dados Sql Server.
      
       Como a aplicação é executada em docker, não se faz necessário configurar o Host do 
       rabbit, pois ele pega como referência a instância configurada no docker-compose,
-      se necessário configurar o usuário e a senha de acesso ao rabbit, por padrão vem guest/guest.
+      se necessário, configurar o usuário e a senha de acesso ao rabbit, por padrão está definido como guest/guest.
 
 *4. Configurando B3Challenge.Search.API*
     
@@ -93,7 +93,7 @@ Frontend desenvolvido em Angular 15 com um cadastro de tarefas desenvolvido de f
        Como a aplicação é executada em docker, não se faz necessário configurar o Host
        do rabbit, pois ele pega como referência a instância configurada no 
        docker-compose, se necessário configurar o usuário e a senha de acesso ao rabbit, 
-       por padrão vem guest/guest.
+       por padrão está definido como guest/guest.
 
        Da mesma forma não é preciso configurar o acesso a B3challange.Search.API,pois
        as duas aplicações rodam no mesmo docker compose.
