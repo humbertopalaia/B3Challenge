@@ -1,7 +1,7 @@
 
 # B3Challenge Cadastro de Tarefas
 
-Código criado para teste de conhecimentos técnicos para vaga de na B3.
+Código criado para teste de conhecimentos técnicos para vaga na B3.
 
 
 ## B3Challenge.Task.Worker
