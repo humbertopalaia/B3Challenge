@@ -50,25 +50,15 @@ namespace B3Challenge.Repository
         }
 
    
-        public void Delete(object id, bool autoSave = true)
+        public void Delete(T entity)
         {
-            var entityToDelete = GetById(id);
+            _dbSet.Remove(entity);
 
-            if (_context.Entry(entityToDelete).State == EntityState.Detached)
-            {
-                _dbSet.Attach(entityToDelete);
-            }
-            _dbSet.Remove(entityToDelete);
-
-            if(autoSave) SaveChanges();
+            SaveChanges();
         }
 
 
 
-        public T GetById(object id)
-        {
-            return _dbSet.AsNoTracking<T>().FirstOrDefault();
-        }
 
         public void Insert(T entity, bool autoSave = true)
         {

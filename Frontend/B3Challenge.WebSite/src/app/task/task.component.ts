@@ -32,9 +32,19 @@ export class TaskComponent {
       next: (task:Task) => {
         this.taskList.isLoading = true;
         this.taskService.save(task).subscribe({
-          next: (v) => {this.taskList.filter(null)},
+          next: (v) => {
+           
+          },
           error: (e) => Swal.fire('Ocorreu um erro na operação!', 'Contacte o suporte', 'error'),
-          complete: () => Swal.fire('Tarefa foi salva com sucesso!', '', 'success')
+          complete: () => {
+            setTimeout(() => {
+              this.taskList.filter(null);
+              console.log('reloaded');
+            }, 500);   
+
+            Swal.fire('Tarefa foi salva com sucesso!', '', 'success');
+                
+          }
     
         });
       }

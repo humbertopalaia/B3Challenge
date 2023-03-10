@@ -18,13 +18,13 @@ import { TaskNewEditComponent } from '../task-new-edit/task-new-edit.component';
 export class TaskListComponent implements OnInit {
   @ViewChild(MatTable)
 
-  
+
   table!: MatTable<any>;
   displayedColumns: string[] = ['id', 'description', 'date', 'status', 'action'];
   dialogRef!: MatDialogRef<TaskNewEditComponent>;
   tasks: Task[] = [];
 
-  public isLoading:boolean=false;
+  public isLoading: boolean = false;
 
 
 
@@ -34,12 +34,12 @@ export class TaskListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-     this.filter(null);
+    this.filter(null);
 
   }
 
   ngAfterViewInit() {
-  
+
   }
 
   public edit(task: Task) {
@@ -50,9 +50,19 @@ export class TaskListComponent implements OnInit {
       next: (task: Task) => {
         this.isLoading = true;
         this.taskService.save(task).subscribe({
-          next: (v) =>  this.isLoading = false,
+          next: (v) => this.isLoading = false,
           error: (e) => Swal.fire('Ocorreu um erro na operação!', 'Contacte o suporte', 'error'),
-          complete: () => Swal.fire('Tarefa foi salva com sucesso!', '', 'success')
+          complete: () => {
+            
+            setTimeout(() => {
+              this.filter(null);
+              console.log('reloaded');
+            }, 500); 
+
+            Swal.fire('Tarefa foi salva com sucesso!', '', 'success')
+        }
+
+          
 
         });
       }
@@ -60,9 +70,9 @@ export class TaskListComponent implements OnInit {
   }
 
   public confirmDelete(id: number) {
-    
+
     Swal.fire({
-      title: 'Deseja excluir o registro?',
+      title: 'Deseja excluir o registro?' + id,
       text: 'Esse processo é irreversível.',
       icon: 'question',
       showCancelButton: true,
@@ -71,6 +81,8 @@ export class TaskListComponent implements OnInit {
     }).then((result) => {
       if (result.value) {
         this.delete(id);
+
+
       }
     });
   }
@@ -78,16 +90,27 @@ export class TaskListComponent implements OnInit {
   private delete(id: number) {
     this.isLoading = true;
     this.taskService.delete(id).subscribe({
-      next: (v) => this.filter(null),
+      next: (v) => {
+        this.isLoading = true;
+        setTimeout(() => {
+          this.filter(null);
+        }, 500);
+      },
       error: (e) => Swal.fire('Ocorreu um erro na operação!', 'Contacte o suporte', 'error'),
-      complete: () => Swal.fire('Tarefa foi excluída com sucesso!', '', 'success')
+      complete: () => {
+
+        Swal.fire('Tarefa foi excluída com sucesso!', '', 'success');
+
+
+
+      }
 
     });
 
   }
 
   public filter(filter: TaskFilter | null) {
-    
+
     this.isLoading = true;
     this.taskService.list(filter).subscribe(x => {
       this.tasks = x;

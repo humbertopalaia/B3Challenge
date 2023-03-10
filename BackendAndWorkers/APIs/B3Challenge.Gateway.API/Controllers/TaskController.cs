@@ -17,7 +17,7 @@ namespace B3Challenge.API.Controllers
             _configuration = configuration;
         }
 
-        [HttpPut]
+        [HttpPost]
         [Route("/api/[controller]/Insert")]
         public IActionResult Insert(Domain.Dtos.Task.TaskInsertDto dto)
         {
@@ -26,7 +26,7 @@ namespace B3Challenge.API.Controllers
                 var sender = new RabbitSender(_configuration["Rabbit:Host"], _configuration["Rabbit:User"], _configuration["Rabbit:Password"]);
                 var message = new OperationMessage();
                 message.MessageId = Guid.NewGuid().ToString();
-                message.OperationType = 0;
+                message.OperationType = OperationType.Insert;
                 message.Message = dto.ToString();
                 sender.QueueMessage(message, "operationQueue");
             }
@@ -49,7 +49,7 @@ namespace B3Challenge.API.Controllers
                 var sender = new RabbitSender(_configuration["Rabbit:Host"], _configuration["Rabbit:User"], _configuration["Rabbit:Password"]);
                 var message = new OperationMessage();
                 message.MessageId = Guid.NewGuid().ToString();
-                message.OperationType = 2;
+                message.OperationType = OperationType.Delete;
                 message.Message = id.ToString();
                 sender.QueueMessage(message, "operationQueue");
             }
@@ -72,7 +72,7 @@ namespace B3Challenge.API.Controllers
                 var sender = new RabbitSender(_configuration["Rabbit:Host"], _configuration["Rabbit:User"], _configuration["Rabbit:Password"]);
                 var message = new OperationMessage();
                 message.MessageId = Guid.NewGuid().ToString();
-                message.OperationType = 1;
+                message.OperationType = OperationType.Update;
                 message.Message = dto.ToString();
 
                 sender.QueueMessage(message, "operationQueue");

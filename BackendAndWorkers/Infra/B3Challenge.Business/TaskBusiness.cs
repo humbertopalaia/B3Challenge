@@ -57,7 +57,7 @@ namespace B3Challenge.Business
 
         public Domain.Entities.Task GetById(int id)
         {
-            return _repository.GetById(id);
+            return _repository.Get(x =>x.Id == id).FirstOrDefault();
         }
 
         public void Insert(Domain.Entities.Task entity, bool autoSave = true)
@@ -75,7 +75,7 @@ namespace B3Challenge.Business
             var entity = _repository.Get(x => x.Id == id).FirstOrDefault();
 
             if (entity != null)
-                _repository.Delete(entity.Id);
+                _repository.Delete(entity);
         }
 
         public List<Domain.Entities.Task> GetAll()

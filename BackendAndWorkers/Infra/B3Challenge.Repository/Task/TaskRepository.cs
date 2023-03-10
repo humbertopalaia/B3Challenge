@@ -14,7 +14,12 @@ namespace B3Challenge.Repository.Task
 
         
         }
+        public void Delete(Domain.Entities.Task entity)
+        {
+            this.DetachLocal(_ => _.Id == entity.Id);
+            base.Delete(entity);
 
+        }
         public void Update(Domain.Entities.Task entity)
         {
             this.DetachLocal(_ => _.Id == entity.Id);

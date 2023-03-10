@@ -90,12 +90,12 @@ namespace B3Challenge.Task.Worker
 
                 var operationMessage = JsonSerializer.Deserialize<OperationMessage>(e.Message);
 
-                if (operationMessage.OperationType == 0) //Insert
+                if (operationMessage.OperationType == OperationType.Insert)
                 {
                     var insertDto = JsonSerializer.Deserialize<Domain.Dtos.Task.TaskInsertDto>(operationMessage.Message);
                     _taskBusiness.Insert(_mapper.Map<Domain.Entities.Task>(insertDto));
                 }
-                else if (operationMessage.OperationType == 1) // Update
+                else if (operationMessage.OperationType == OperationType.Update) 
                 {
                     var updateDto = JsonSerializer.Deserialize<Domain.Dtos.Task.TaskUpdateDto>(operationMessage.Message);
 
@@ -104,7 +104,7 @@ namespace B3Challenge.Task.Worker
 
                     _taskBusiness.Update(entity);
                 }
-                else if (operationMessage.OperationType == 2) // Delete
+                else if (operationMessage.OperationType == OperationType.Delete)
                 {
                     var taskId = Convert.ToInt32(operationMessage.Message);
                     _taskBusiness.Delete(taskId);

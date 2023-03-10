@@ -13,10 +13,9 @@ namespace B3Challenge.Repository
         IEnumerable<T> Get(Expression<Func<T, bool>> filter = null,
            Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
            string includeProperties = null);
-        T GetById(object id) ;
         void Insert(T entity, bool autoSave = true);
         void Update(T entity, bool autoSave = true);
-        void Delete(object id, bool autoSave = true);
+        void Delete(T entity);
         void SaveChanges();
         IQueryable<T> GetAll();
     }

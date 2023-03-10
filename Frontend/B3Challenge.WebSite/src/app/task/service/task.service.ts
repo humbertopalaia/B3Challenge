@@ -23,7 +23,7 @@ export class TaskService {
             let url = `${API_URL}/task/insert`;
             const dateFormated = this.datePipe.transform(entity.date, 'yyyy-MM-dd');
             url = `${url}?id=${entity.id}&description=${entity.description}&date=${dateFormated}&taskStatusId=${entity.taskStatusId}`
-            return this.http.put<Task>(url, entity);
+            return this.http.post<Task>(url, entity);
         }
         else
         {
